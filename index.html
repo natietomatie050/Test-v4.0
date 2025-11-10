@@ -1,197 +1,82 @@
-diff --git a/index.html b/index.html
-index 2ff82de9eb04c5c4b4e7a9b23c7389c6bf837f4b..545a1b9e0c602b0abfb777801bb86fd4d298f9b5 100644
---- a/index.html
-+++ b/index.html
-@@ -1,110 +1,82 @@
-- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
--diff --git a/index.html b/index.html
--new file mode 100644
--index 0000000000000000000000000000000000000000..132f0587026f542cb716fe8cff64d5593b11c0c6
----- /dev/null
--+++ b/index.html
--@@ -0,0 +1,100 @@
--+<!DOCTYPE html>
--+<html lang="nl">
--+  <head>
--+    <meta charset="utf-8" />
--+    <meta name="viewport" content="width=device-width, initial-scale=1" />
--+    <title>Kliktest 2.0</title>
--+    <link rel="stylesheet" href="styles.css" />
--+  </head>
--+  <body>
--+    <header class="site-header">
--+      <div class="site-header__inner">
--+        <span class="site-logo" aria-hidden="true">⚡</span>
--+        <div>
--+          <p class="site-tagline">Kliktest 2.0</p>
--+          <p class="site-subtitle">Verzamel klikdata in één overzichtelijke webapp</p>
--+        </div>
--+      </div>
--+      <a
--+        class="site-cta"
--+        href="https://docs.github.com/nl/pages/getting-started-with-github-pages/creating-a-github-pages-site"
--+        target="_blank"
--+        rel="noreferrer"
--+      >
--+        Publiceer via GitHub Pages
--+      </a>
--+    </header>
--+
--+    <main class="container">
--+      <section class="hero" aria-labelledby="hero-title">
--+        <div>
--+          <h1 id="hero-title">Start met het verzamelen van klikken</h1>
--+          <p>
--+            De twee knoppen hieronder registreren iedere klik met tijdstip en knopnaam.
--+            Download de gegevens als JSON en upload de bestanden eenvoudig naar GitHub om
--+            je eigen openbare website te publiceren.
--+          </p>
--+        </div>
--+        <div class="hero__badge" aria-hidden="true">Realtime logging</div>
--+      </section>
--+
--+      <section class="cta-panel" aria-labelledby="cta-title">
--+        <div class="cta-panel__header">
--+          <h2 id="cta-title">Klikken registreren</h2>
--+          <p>Druk op een knop om direct een nieuwe regel aan het overzicht toe te voegen.</p>
--+        </div>
--+        <div class="button-grid" role="group" aria-label="Klikknoppen">
--+          <button type="button" data-id="knop-a">Knop A</button>
--+          <button type="button" data-id="knop-b">Knop B</button>
--+        </div>
--+        <div class="stats-grid" role="status" aria-live="polite">
--+          <article class="stat-card stat-card--total">
--+            <h3>Totaal</h3>
--+            <p><span id="total-count">0</span> klikken</p>
--+          </article>
--+          <article class="stat-card stat-card--a">
--+            <h3>Knop A</h3>
--+            <p><span id="count-knop-a">0</span> registraties</p>
--+          </article>
--+          <article class="stat-card stat-card--b">
--+            <h3>Knop B</h3>
--+            <p><span id="count-knop-b">0</span> registraties</p>
--+          </article>
--+        </div>
--+      </section>
--+
--+      <section class="results" aria-live="polite" aria-labelledby="results-title">
--+        <div class="results__header">
--+          <div>
--+            <h2 id="results-title">Geregistreerde klikken</h2>
--+            <p class="results__summary">Nog geen klikken geregistreerd.</p>
--+          </div>
--+          <button type="button" id="export-json" disabled>
--+            Download als JSON
--+          </button>
--+        </div>
--+        <div class="table-wrapper">
--+          <table class="results__table" hidden>
--+            <thead>
--+              <tr>
--+                <th scope="col">#</th>
--+                <th scope="col">Knop</th>
--+                <th scope="col">Tijdstip</th>
--+              </tr>
--+            </thead>
--+            <tbody id="click-rows"></tbody>
--+          </table>
--+        </div>
--+      </section>
--+    </main>
--+
--+    <footer class="site-footer">
--+      <p>
--+        Klaar? Upload <code>index.html</code>, <code>styles.css</code> en <code>script.js</code> naar een
--+        nieuw GitHub-repository en activeer daarna GitHub Pages om de site te delen.
--+      </p>
--+    </footer>
--+
--+    <script src="script.js"></script>
--+  </body>
--+</html>
-- 
--EOF
--)
-+<!DOCTYPE html>
-+<html lang="nl">
-+  <head>
-+    <meta charset="utf-8" />
-+    <meta name="viewport" content="width=device-width, initial-scale=1" />
-+    <title>Klikregistratie</title>
-+    <link rel="stylesheet" href="style.css" />
-+  </head>
-+  <body>
-+    <header class="site-header">
-+      <h1>Klikregistratie</h1>
-+      <p>Druk op een van de drie knoppen om het moment van klikken vast te leggen.</p>
-+    </header>
-+
-+    <main class="container">
-+      <section class="panel" aria-labelledby="button-panel">
-+        <div class="panel__header">
-+          <h2 id="button-panel">Knoppen</h2>
-+          <p>Alle klikken worden automatisch lokaal opgeslagen.</p>
-+        </div>
-+        <div class="button-group" role="group" aria-label="Klikknoppen">
-+          <button type="button" data-id="knop-a">Knop A</button>
-+          <button type="button" data-id="knop-b">Knop B</button>
-+          <button type="button" data-id="knop-c">Knop C</button>
-+        </div>
-+        <div class="panel__actions">
-+          <button type="button" id="download-data" disabled>Download JSON</button>
-+          <button type="button" id="clear-data" class="button--secondary" disabled>Log wissen</button>
-+        </div>
-+      </section>
-+
-+      <section class="panel" aria-labelledby="stats-panel">
-+        <div class="panel__header">
-+          <h2 id="stats-panel">Statistieken</h2>
-+          <p class="summary" id="summary">Nog geen klikken geregistreerd.</p>
-+        </div>
-+        <div class="stats-grid">
-+          <article class="stat">
-+            <h3>Totaal</h3>
-+            <p><span id="total-count">0</span> klikken</p>
-+          </article>
-+          <article class="stat">
-+            <h3>Knop A</h3>
-+            <p><span id="count-knop-a">0</span> registraties</p>
-+          </article>
-+          <article class="stat">
-+            <h3>Knop B</h3>
-+            <p><span id="count-knop-b">0</span> registraties</p>
-+          </article>
-+          <article class="stat">
-+            <h3>Knop C</h3>
-+            <p><span id="count-knop-c">0</span> registraties</p>
-+          </article>
-+        </div>
-+      </section>
-+
-+      <section class="panel" aria-labelledby="log-panel">
-+        <div class="panel__header">
-+          <h2 id="log-panel">Kliklog</h2>
-+        </div>
-+        <div class="table-wrapper">
-+          <table aria-live="polite">
-+            <thead>
-+              <tr>
-+                <th scope="col">#</th>
-+                <th scope="col">Knop</th>
-+                <th scope="col">Tijdstip</th>
-+              </tr>
-+            </thead>
-+            <tbody id="log-rows"></tbody>
-+          </table>
-+        </div>
-+      </section>
-+    </main>
-+
-+    <footer class="site-footer">
-+      <p>Gegevens worden opgeslagen in de lokale opslag van de browser.</p>
-+    </footer>
-+
-+    <script src="script.js" defer></script>
-+  </body>
-+</html>
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Klikregistratie</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>Klikregistratie</h1>
+      <p>Druk op een van de drie knoppen om het moment van klikken vast te leggen.</p>
+    </header>
+
+    <main class="container">
+      <section class="panel" aria-labelledby="button-panel">
+        <div class="panel__header">
+          <h2 id="button-panel">Knoppen</h2>
+          <p>Alle klikken worden automatisch lokaal opgeslagen.</p>
+        </div>
+        <div class="button-group" role="group" aria-label="Klikknoppen">
+          <button type="button" data-id="knop-a">Knop A</button>
+          <button type="button" data-id="knop-b">Knop B</button>
+          <button type="button" data-id="knop-c">Knop C</button>
+        </div>
+        <div class="panel__actions">
+          <button type="button" id="download-data" disabled>Download JSON</button>
+          <button type="button" id="clear-data" class="button--secondary" disabled>Log wissen</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="stats-panel">
+        <div class="panel__header">
+          <h2 id="stats-panel">Statistieken</h2>
+          <p class="summary" id="summary">Nog geen klikken geregistreerd.</p>
+        </div>
+        <div class="stats-grid">
+          <article class="stat">
+            <h3>Totaal</h3>
+            <p><span id="total-count">0</span> klikken</p>
+          </article>
+          <article class="stat">
+            <h3>Knop A</h3>
+            <p><span id="count-knop-a">0</span> registraties</p>
+          </article>
+          <article class="stat">
+            <h3>Knop B</h3>
+            <p><span id="count-knop-b">0</span> registraties</p>
+          </article>
+          <article class="stat">
+            <h3>Knop C</h3>
+            <p><span id="count-knop-c">0</span> registraties</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="log-panel">
+        <div class="panel__header">
+          <h2 id="log-panel">Kliklog</h2>
+        </div>
+        <div class="table-wrapper">
+          <table aria-live="polite">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Knop</th>
+                <th scope="col">Tijdstip</th>
+              </tr>
+            </thead>
+            <tbody id="log-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Gegevens worden opgeslagen in de lokale opslag van de browser.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
